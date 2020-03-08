@@ -1,7 +1,6 @@
 'use strict';
 
 var ANNOUNCEMENTS_COUNT = 8;
-var AVATARS_PHOTOS = ['01', '02', '03', '04', '05', '06', '07', '08'];
 var TITLE = ['nam libero', 'justo laoreet', 'sit amet', 'cursus sit', 'amet dictum', 'sit amet', 'justo donec', 'enim diam'];
 var HOUSE_TYPE = ['palace', 'flat', 'house', 'bungalo'];
 var FEATURES = ['wifi', 'dishwasher', 'parking', 'washer', 'elevator', 'conditioner'];
@@ -26,7 +25,7 @@ var createAnnouncementsArray = function () {
   for (var i = 0; i < ANNOUNCEMENTS_COUNT; i++) {
     announcements.push({
       'author': {
-        'avatar': 'img/avatars/user' + getRandomElement(AVATARS_PHOTOS) + '.png'
+        'avatar': 'img/avatars/user0' + (i + 1) + '.png'
       },
       'offer': {
         'title': getRandomElement(TITLE),
@@ -71,5 +70,6 @@ var init = function () {
   var announcementsArray = createAnnouncementsArray();
   insertsPins(announcementsArray);
   document.querySelector('.map').classList.remove('map--faded');
+  document.querySelector('.ad-form').classList.remove('ad-form--disabled');
 };
 init();
