@@ -72,4 +72,65 @@ var init = function () {
   document.querySelector('.map').classList.remove('map--faded');
   document.querySelector('.ad-form').classList.remove('ad-form--disabled');
 };
-init();
+
+var inputAddress = document.querySelector('#address');
+inputAddress.value = [601, 406];
+
+var adForm = document.querySelector('.ad-form');
+var adFormFieldsets = adForm.children;
+
+var adDisabledAttribute = function () {
+  for (var i = 0; i < adFormFieldsets.length; i++) {
+    adFormFieldsets[i].setAttribute('disabled', 'disabled');
+  }
+};
+adDisabledAttribute();
+
+
+var removeDisabledAttribute = function () {
+  for (var j = 0; j < adFormFieldsets.length; j++) {
+    adFormFieldsets[j].removeAttribute('disabled');
+  }
+};
+
+var mapPinMain = document.querySelector('.map__pin--main');
+
+var activePage = function (evt) {
+  evt.preventDefault();
+  init();
+  removeDisabledAttribute();
+  mapPinMain.removeEventListener('mousedown', onPinMainFirstMousedown);
+  mapPinMain.removeEventListener('keydown', onPainMainEnterKeydown);
+  inputAddress.value = [601, 447];
+};
+
+var onPinMainFirstMousedown = function (evt) {
+  if (evt.which === 1) {
+    activePage(evt);
+  }
+};
+
+var onPainMainEnterKeydown = function (evt) {
+  if (evt.keyCode === 13) {
+    activePage(evt);
+  }
+};
+
+mapPinMain.addEventListener('mousedown', onPinMainFirstMousedown);
+mapPinMain.addEventListener('keydown', onPainMainEnterKeydown);
+
+var selectRooms = adForm.querySelector('#room_number');
+var selectGuests = adForm.querySelector('#capacity');
+var adFormSubmit = adForm.querySelector('.ad-form__submit');
+
+var onSelectGuests = function () {
+  if (selectGuests.value !== selectRooms.value) {
+    selectGuests.setCustomValidity('Количество гостей не совпадает с количеством комнат.');
+  } else {
+    selectGuests.setCustomValidity('');
+  }
+};
+
+adFormSubmit.addEventListener('click', onSelectGuests);
+
+
