@@ -130,17 +130,7 @@ var selectGuests = adForm.querySelector('#capacity');
 var adFormSubmit = adForm.querySelector('.ad-form__submit');
 
 var onSelectGuests = function () {
-  /* if (+selectGuests.value === 0 && +selectRooms.value !== 100) {
-    selectGuests.setCustomValidity('Опция "не для гостей" доступна только при выборе конференц-залы на 100 человек.');
-  } else if (+selectGuests.value <= +selectRooms.value && +selectRooms.value !== 100) {
-    selectGuests.setCustomValidity('');
-  } else if (+selectRooms.value === 100 && +selectGuests.value === 0) {
-    selectGuests.setCustomValidity('');
-  } else {
-    selectGuests.setCustomValidity('Количество гостей больше, чем количество комнат. Если выбрано конференц-зал на 100 человек, выберите опциию "не для гостей"');
-  }*/
-
-  if (+selectRooms.value < +selectGuests.value || (+selectRooms.value === 100 && +selectGuests.value !== 0)) {
+  if (+selectRooms.value < +selectGuests.value || (+selectGuests.value === 0 && +selectRooms.value !== 100)) {
     selectGuests.setCustomValidity('Количество комнат не соответствует количеству гостей');
   } else {
     selectGuests.setCustomValidity('');
