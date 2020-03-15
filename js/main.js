@@ -1,5 +1,8 @@
 'use strict';
 
+var StatusCode = {
+  ENTER_KEY: 13
+};
 var ANNOUNCEMENTS_COUNT = 8;
 var TITLE = ['nam libero', 'justo laoreet', 'sit amet', 'cursus sit', 'amet dictum', 'sit amet', 'justo donec', 'enim diam'];
 var HOUSE_TYPE = ['palace', 'flat', 'house', 'bungalo'];
@@ -72,4 +75,68 @@ var init = function () {
   document.querySelector('.map').classList.remove('map--faded');
   document.querySelector('.ad-form').classList.remove('ad-form--disabled');
 };
-init();
+
+var mapPinMain = document.querySelector('.map__pin--main');
+var locationMapPinMain = mapPinMain.getBoundingClientRect();
+
+var inputAddress = document.querySelector('#address');
+inputAddress.value = [locationMapPinMain.x + locationMapPinMain.width / 2, locationMapPinMain.y + locationMapPinMain.height / 2];
+
+var adForm = document.querySelector('.ad-form');
+var adFormFieldsets = adForm.children;
+
+var adDisabledAttribute = function () {
+  for (var i = 0; i < adFormFieldsets.length; i++) {
+    adFormFieldsets[i].setAttribute('disabled', 'disabled');
+  }
+};
+
+window.addEventListener('load', function () {
+  adDisabledAttribute();
+});
+
+var removeDisabledAttribute = function () {
+  for (var i = 0; i < adFormFieldsets.length; i++) {
+    adFormFieldsets[i].removeAttribute('disabled');
+  }
+};
+
+var activePage = function (evt) {
+  evt.preventDefault();
+  init();
+  removeDisabledAttribute();
+  mapPinMain.removeEventListener('mousedown', onPinMainFirstMousedown);
+  mapPinMain.removeEventListener('keydown', onPainMainEnterKeydown);
+  inputAddress.value = [locationMapPinMain.x + locationMapPinMain.width / 2, locationMapPinMain.y + locationMapPinMain.height];
+};
+
+var onPinMainFirstMousedown = function (evt) {
+  if (evt.which === 1) {
+    activePage(evt);
+  }
+};
+
+var onPainMainEnterKeydown = function (evt) {
+  if (evt.keyCode === StatusCode.ENTER_KEY) {
+    activePage(evt);
+  }
+};
+
+mapPinMain.addEventListener('mousedown', onPinMainFirstMousedown);
+mapPinMain.addEventListener('keydown', onPainMainEnterKeydown);
+
+var selectRooms = adForm.querySelector('#room_number');
+var selectGuests = adForm.querySelector('#capacity');
+var adFormSubmit = adForm.querySelector('.ad-form__submit');
+
+var onSelectGuests = function () {
+  if (+selectRooms.value < +selectGuests.value || (+selectGuests.value === 0 && +selectRooms.value !== 100)) {
+    selectGuests.setCustomValidity('Количество комнат не соответствует количеству гостей');
+  } else {
+    selectGuests.setCustomValidity('');
+  }
+};
+
+adFormSubmit.addEventListener('click', onSelectGuests);
+
+
