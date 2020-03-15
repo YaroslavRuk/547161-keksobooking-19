@@ -1,5 +1,6 @@
 'use strict';
 
+var ENTER_KEY = 13;
 var ANNOUNCEMENTS_COUNT = 8;
 var TITLE = ['nam libero', 'justo laoreet', 'sit amet', 'cursus sit', 'amet dictum', 'sit amet', 'justo donec', 'enim diam'];
 var HOUSE_TYPE = ['palace', 'flat', 'house', 'bungalo'];
@@ -73,8 +74,11 @@ var init = function () {
   document.querySelector('.ad-form').classList.remove('ad-form--disabled');
 };
 
+var mapPinMain = document.querySelector('.map__pin--main');
+var locationMapPinMain = mapPinMain.getBoundingClientRect();
+
 var inputAddress = document.querySelector('#address');
-inputAddress.value = [601, 406];
+inputAddress.value = [locationMapPinMain.x + locationMapPinMain.width / 2, locationMapPinMain.y + locationMapPinMain.height / 2];
 
 var adForm = document.querySelector('.ad-form');
 var adFormFieldsets = adForm.children;
@@ -84,16 +88,16 @@ var adDisabledAttribute = function () {
     adFormFieldsets[i].setAttribute('disabled', 'disabled');
   }
 };
-adDisabledAttribute();
 
+window.addEventListener('load', function () {
+  adDisabledAttribute();
+});
 
 var removeDisabledAttribute = function () {
-  for (var j = 0; j < adFormFieldsets.length; j++) {
-    adFormFieldsets[j].removeAttribute('disabled');
+  for (var i = 0; i < adFormFieldsets.length; i++) {
+    adFormFieldsets[i].removeAttribute('disabled');
   }
 };
-
-var mapPinMain = document.querySelector('.map__pin--main');
 
 var activePage = function (evt) {
   evt.preventDefault();
@@ -101,7 +105,7 @@ var activePage = function (evt) {
   removeDisabledAttribute();
   mapPinMain.removeEventListener('mousedown', onPinMainFirstMousedown);
   mapPinMain.removeEventListener('keydown', onPainMainEnterKeydown);
-  inputAddress.value = [601, 447];
+  inputAddress.value = [locationMapPinMain.x + locationMapPinMain.width / 2, locationMapPinMain.y + locationMapPinMain.height];
 };
 
 var onPinMainFirstMousedown = function (evt) {
@@ -111,7 +115,7 @@ var onPinMainFirstMousedown = function (evt) {
 };
 
 var onPainMainEnterKeydown = function (evt) {
-  if (evt.keyCode === 13) {
+  if (evt.keyCode === ENTER_KEY) {
     activePage(evt);
   }
 };
@@ -124,10 +128,14 @@ var selectGuests = adForm.querySelector('#capacity');
 var adFormSubmit = adForm.querySelector('.ad-form__submit');
 
 var onSelectGuests = function () {
-  if (selectGuests.value !== selectRooms.value) {
-    selectGuests.setCustomValidity('Количество гостей не совпадает с количеством комнат.');
-  } else {
+  if (+selectGuests.value === 0 && +selectRooms.value !== 100) {
+    selectGuests.setCustomValidity('Опция "не для гостей" доступна только при выборе конференц-залы на 100 человек.');
+  } else if (+selectGuests.value <= +selectRooms.value && +selectRooms.value !== 100) {
     selectGuests.setCustomValidity('');
+  } else if (+selectRooms.value === 100 && +selectGuests.value === 0) {
+    selectGuests.setCustomValidity('');
+  } else {
+    selectGuests.setCustomValidity('Количество гостей больше, чем количество комнат. Если выбрано конференц-зал на 100 человек, выберите опциию "не для гостей"');
   }
 };
 
