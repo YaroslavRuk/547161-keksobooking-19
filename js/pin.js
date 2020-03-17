@@ -21,7 +21,16 @@
     similarListElement.appendChild(fragment);
   };
 
+  var onSuccess = function (data) {
+    insertsPins(data);
+  };
+
+  var onError = function () {
+  };
+
   window.pin = {
-    insertsPins: insertsPins
+    insertsPins: insertsPins,
+    onSuccess: onSuccess,
+    onError: onError
   };
 })();
