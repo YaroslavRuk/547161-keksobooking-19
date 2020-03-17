@@ -39,6 +39,6 @@
 
   window.form = {
     inputAddress: inputAddress,
-    removeDisabledAttribute: removeDisabledAttribute()
+    removeDisabledAttribute: removeDisabledAttribute
   };
 })();

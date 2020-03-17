@@ -50,7 +50,7 @@
   };
 
   window.data = {
-    createAnnouncementsArray: createAnnouncementsArray()
+    createAnnouncementsArray: createAnnouncementsArray
   };
 
 })();
