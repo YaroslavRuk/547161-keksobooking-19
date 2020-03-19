@@ -2,7 +2,8 @@
 
 (function () {
   var StatusCode = {
-    ENTER_KEY: 13
+    ENTER_KEY: 13,
+    ESC_KEY: 27
   };
 
   var mapPinMain = document.querySelector('.map__pin--main');
@@ -33,13 +34,26 @@
   mapPinMain.addEventListener('keydown', onPainMainEnterKeydown);
 
   var errorTemplate = document.querySelector('#error').content.querySelector('.error');
-  var errorMessage = errorTemplate.querySelector('.error__message');
   var body = document.querySelector('body');
 
   var errorHandler = function (message) {
     var errorBlock = errorTemplate.cloneNode(true);
-    errorMessage.textContent = message;
+    errorBlock.querySelector('.error__message').textContent = message;
     body.appendChild(errorBlock);
+    errorBlock.querySelector('.error__button').addEventListener('click', function () {
+      errorBlock.classList.add('hidden');
+      window.backend.load(function (data) {
+        window.pin.insertsPins(data);
+      }, window.map.errorHandler);
+    });
+
+    var onErrorWindow = function (evt) {
+      if (evt.keyCode === StatusCode.ESC_KEY) {
+        errorBlock.classList.add('hidden');
+        document.removeEventListener('keydown', onErrorWindow);
+      }
+    };
+    document.addEventListener('keydown', onErrorWindow);
   };
 
   window.map = {

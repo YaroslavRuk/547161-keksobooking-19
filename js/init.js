@@ -8,7 +8,7 @@
     document.querySelector('.ad-form').classList.remove('ad-form--disabled');
     window.backend.load(function (data) {
       window.pin.insertsPins(data);
-    }, window.map.errorHandler());
+    }, window.map.errorHandler);
   };
 
   window.init = {

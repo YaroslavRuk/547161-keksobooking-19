@@ -25,7 +25,11 @@
     });
 
     xhr.addEventListener('error', function () {
-      onError(xhr.responseText);
+      onError('Во время загрузки произошла ошибка');
+    });
+
+    xhr.addEventListener('timeout', function () {
+      onError('Превышено время ожидания ответа');
     });
 
     xhr.timeout = TIMEOUT;
