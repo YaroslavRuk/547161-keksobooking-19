@@ -54,6 +54,12 @@
       }
     };
     document.addEventListener('keydown', onErrorWindow);
+
+    var onErrorWindowClick = function () {
+      errorBlock.classList.add('hidden');
+      document.removeEventListener('click', onErrorWindowClick);
+    };
+    document.addEventListener('click', onErrorWindowClick);
   };
 
   window.map = {
