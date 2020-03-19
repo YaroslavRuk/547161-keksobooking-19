@@ -32,7 +32,18 @@
   mapPinMain.addEventListener('mousedown', onPinMainFirstMousedown);
   mapPinMain.addEventListener('keydown', onPainMainEnterKeydown);
 
+  var errorTemplate = document.querySelector('#error').content.querySelector('.error');
+  var errorMessage = errorTemplate.querySelector('.error__message');
+  var body = document.querySelector('body');
+
+  var errorHandler = function (message) {
+    var errorBlock = errorTemplate.cloneNode(true);
+    errorMessage.textContent = message;
+    body.appendChild(errorBlock);
+  };
+
   window.map = {
-    locationMapPinMain: locationMapPinMain
+    locationMapPinMain: locationMapPinMain,
+    errorHandler: errorHandler
   };
 })();
