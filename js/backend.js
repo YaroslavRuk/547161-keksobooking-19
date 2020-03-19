@@ -8,7 +8,7 @@
   };
 
   var Url = {
-    GET: 'https://js.dump.academy/keksobooking/data3'
+    GET: 'https://js.dump.academy/keksobooking/data'
   };
 
   var load = function (onSuccess, onError) {
