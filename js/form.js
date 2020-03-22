@@ -15,6 +15,7 @@
 
   window.addEventListener('load', function () {
     adDisabledAttribute();
+    window.filter.adDisabledAttributeFilterForm();
   });
 
   var removeDisabledAttribute = function () {
